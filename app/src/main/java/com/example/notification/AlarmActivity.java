@@ -36,15 +36,6 @@ public class AlarmActivity extends AppCompatActivity {
         pickerTime = (TimePicker) findViewById(R.id.pickertime);
         pickerDate = (DatePicker)findViewById(R.id.pickerdate);
 
-        /*Calendar now = Calendar.getInstance();
-        pickerDate.init(
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH),
-                null);
-        pickerTime.setCurrentHour(now.get(Calendar.HOUR_OF_DAY));
-        pickerTime.setCurrentMinute(now.get(Calendar.MINUTE));*/
-
         setalarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +46,8 @@ public class AlarmActivity extends AppCompatActivity {
                 String month = dateParts[1];
                 String year = dateParts[0];
 
-                String time = "16:30:00";
-                String[] timeParts = date.split(":");
+                String time = "17:45:00";
+                String[] timeParts = time.split(":");
                 String sec = timeParts[2];
                 String minute = timeParts[1];
                 String hour = timeParts[0];
@@ -64,28 +55,19 @@ public class AlarmActivity extends AppCompatActivity {
 
                 Calendar current = Calendar.getInstance();
                 Calendar cal = Calendar.getInstance();
-                /*cal.set(
-                        pickerDate.getYear(),
-                        pickerDate.getMonth(),
-                        pickerDate.getDayOfMonth(),
-                        pickerTime.getCurrentHour(),
-                        pickerTime.getCurrentMinute(),
-                        00);*/
+
                 cal.set(
-                        2020,
-                        10,
-                        5,
-                        16,
-                        31,
-                        00);
+                        Integer.parseInt(year),
+                        Integer.parseInt(month),
+                        Integer.parseInt(day),
+                        Integer.parseInt(hour),
+                        Integer.parseInt(minute),
+                        Integer.parseInt(sec));
 
                 if(cal.compareTo(current)<= 0){
                     Toast.makeText(AlarmActivity.this,"Invalid",Toast.LENGTH_SHORT).show();
                 }else {
-                        Log.i("DateTime","year:"+String.valueOf(pickerDate.getYear())+"month:"+String.valueOf(pickerDate.getMonth())+"day:"+String.valueOf(pickerDate.getDayOfMonth()));
-                    Log.i("TimeDate","hour:"+String.valueOf(pickerTime.getCurrentHour())+"minute:"+String.valueOf(pickerTime.getCurrentMinute()));
-
-                    setAlarm(cal);
+                        setAlarm(cal);
                 }
 
             }
@@ -98,7 +80,6 @@ public class AlarmActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), RQS_1, intent, 0);
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),pendingIntent);
-        //Uri uriAlarm = RingtoneManager.getDefaultUri()
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         if(targetCal.getTime().equals(currentDateTimeString)){
             Toast.makeText(AlarmActivity.this,"Alarm...",Toast.LENGTH_LONG).show();
